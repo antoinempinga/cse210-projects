@@ -2,7 +2,7 @@ using System;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
         Console.WriteLine("Welcome!");
         Console.Write("What is your First Name ?: ");
@@ -10,35 +10,34 @@ class Program
         Console.Write("What is your Last Name ? : ");
         string Lastname = Console.ReadLine();
         Console.WriteLine($"Dear: {Firstname} {Lastname}, not that this is a magic number game");
-        // For Parts 1 and 2, where the user specified the number...
-        // Console.Write("What is the magic number? ");
-        // int magicNumber = int.Parse(Console.ReadLine());
+        // Core functionality
+        int magicNumber = 18; // Initially ask user to input magic number
+        int guess;
+
+        Console.WriteLine("What is the magic number?");
+        magicNumber = int.Parse(Console.ReadLine()); // User inputs the magic number
         
-        // For Part 3, where we use a random number
-        Random randomGenerator = new Random();
-        int magicNumber = randomGenerator.Next(1, 101);
-
-        int guess = -1;
-
-        // We could also use a do-while loop here...
-        while (guess != magicNumber)
+        do
         {
             Console.Write("What is your guess? ");
-            guess = int.Parse(Console.ReadLine());
+            guess = int.Parse(Console.ReadLine()); // User makes a guess
 
-            if (magicNumber > guess)
-            {
-                Console.WriteLine("Lower");
-            }
-            else if (magicNumber < guess)
+            if (guess < magicNumber)
             {
                 Console.WriteLine("Higher");
             }
+            else if (guess > magicNumber)
+            {
+                Console.WriteLine("Lower");
+            }
             else
             {
-                Console.WriteLine($"Thanks so much Dear {Firstname} {Lastname}Good bye.");
+                Console.WriteLine("You guessed it!");
             }
 
-        }              
+        } while (guess != magicNumber); // Loop continues until the user guesses correctly
+                            {
+                Console.WriteLine($"Thanks so much Dear {Firstname} {Lastname}Good bye.");
+            }
     }
 }
