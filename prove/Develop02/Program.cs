@@ -1,101 +1,75 @@
-using System;  
+using System;
+using System.Collections.Generic;
 
-class Program  
-{  
-    static void Main(string[] args)  
-    {  
-        Console.WriteLine("Welcome!");
-        Console.Write("What is your Name ?: ");
-        string name = Console.ReadLine();
-        Journal journal = new Journal();  
-        bool running = true;  
-
-        while (running)  
-        {  
-            Console.WriteLine($"Dear {name} this is the Journal Menu");
-            Console.WriteLine("1. Write a new entry");  
-            Console.WriteLine("2. Display journal");  
-            Console.WriteLine("3. Save journal to file");  
-            Console.WriteLine("4. Load journal from file");  
-            Console.WriteLine("5. Exit");  
-            Console.Write($"Dear{name} Kindly Choose an option: ");  
-            string choice = Console.ReadLine();  
-
-            switch (choice)  
-            {  
-                case "1":  
-                    string prompt = journal.GetRandomPrompt();  
-                    Console.WriteLine($"Prompt: {prompt}");  
-                    Console.Write("Your response: ");  
-                    string response = Console.ReadLine();  
-                    journal.AddEntry(response);  
-                    break;  
-                case "2":  
-                    journal.DisplayEntries();  
-                    break;  
-                case "3":  
-                    Console.Write("Enter filename to save: ");  
-                    string saveFileName = Console.ReadLine();  
-                    journal.SaveToFile(saveFileName);  
-                    Console.WriteLine("Journal saved.");  
-                    break;  
-                case "4":  
-                    Console.Write("Enter filename to load: ");  
-                    string loadFileName = Console.ReadLine();  
-                    journal.LoadFromFile(loadFileName);  
-                    Console.WriteLine("Journal loaded.");  
-                    break;  
-                case "5":  
-                    running = false;  
-                    break;  
-                default:  
-                    Console.WriteLine("Invalid option. Please try again.");  
-                    break;  
-            }  
-        }  
-    }  
-}
-
-internal class Journal
+namespace JournalApp
 {
-    internal void AddEntry(string response)
+    // Abstract class defining a general structure for all types of Entries
+    public abstract class Entry
     {
-        throw new ImplementedException();
+        public string Date { get; set; }
+        public string Text { get; set; }
+
+        // Abstract method that will be implemented by concrete subclasses
+        public abstract void Display();
     }
 
-    internal void DisplayEntries()
+    // Concrete class that represents a text-based journal entry
+    public class TextEntry : Entry
     {
-        throw new ImplementedException();
+        public override void Display()
+        {
+            Console.WriteLine($"[Text Entry] {Date}: {Text}");
+        }
     }
 
-    internal string GetRandomPrompt()
+    // Concrete class for an image-based journal entry (could be expanded later)
+    public class ImageEntry : Entry
     {
-        throw new ImplementedException();
+        public string ImagePath { get; set; }
+
+        public override void Display()
+        {
+            Console.WriteLine($"[Image Entry] {Date}: {Text}, Image Path: {ImagePath}");
+        }
     }
 
-    internal void LoadFromFile(string loadFileName)
+    // Journal class that contains a list of Entries
+    public class Journal
     {
-        throw new ImplementedException();
+        private List<Entry> entries = new List<Entry>();
+
+        // Method to add entries to the journal
+        public void AddEntry(Entry entry)
+        {
+            entries.Add(entry);
+        }
+
+        // Method to display all entries in the journal
+        public void DisplayAllEntries()
+        {
+            foreach (var entry in entries)
+            {
+                entry.Display();  // Abstraction in action: we don't care about the concrete type of Entry
+            }
+        }
     }
 
-    internal void SaveToFile(string saveFileName)
+    // Program entry point
+    class Program
     {
-        throw new ImplementedException();
-    }
-}
+        static void Main(string[] args)
+        {
+            // Create a new journal
+            Journal myJournal = new Journal();
 
-[Serializable]
-internal class ImplementedException : Exception
-{
-    public ImplementedException()
-    {
-    }
+            // Add a text-based entry
+            myJournal.AddEntry(new TextEntry { Date = "2024-11-15", Text = "This is my first journal entry!" });
 
-    public ImplementedException(string message) : base(message)
-    {
-    }
+            // Add an image-based entry
+            myJournal.AddEntry(new ImageEntry { Date = "2024-11-16", Text = "A beautiful sunset!", ImagePath = "/images/sunset.jpg" });
 
-    public ImplementedException(string message, Exception innerException) : base(message, innerException)
-    {
+            // Display all entries
+            myJournal.DisplayAllEntries();
+        }
     }
 }
