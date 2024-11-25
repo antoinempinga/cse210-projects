@@ -1,75 +1,83 @@
 using System;
-using System.Collections.Generic;
 
-namespace JournalApp
+public class Program
 {
-    // Abstract class defining a general structure for all types of Entries
-    public abstract class Entry
+    public static Journal journal = new Journal();
+    public static PromptGenerator promptGenerator = new PromptGenerator();
+
+    public static void Main(string[] args)
     {
-        public string Date { get; set; }
-        public string Text { get; set; }
+        string choice = "";
 
-        // Abstract method that will be implemented by concrete subclasses
-        public abstract void Display();
-    }
-
-    // Concrete class that represents a text-based journal entry
-    public class TextEntry : Entry
-    {
-        public override void Display()
+        while (choice != "5")
         {
-            Console.WriteLine($"[Text Entry] {Date}: {Text}");
-        }
-    }
+            Console.WriteLine("\nMenu:");
+            Console.WriteLine("1. Write a new entry");
+            Console.WriteLine("2. Display the journal");
+            Console.WriteLine("3. Save the journal to a file");
+            Console.WriteLine("4. Load the journal from a file");
+            Console.WriteLine("5. Exit");
+            Console.Write("Enter your choice: ");
+            choice = Console.ReadLine();
 
-    // Concrete class for an image-based journal entry (could be expanded later)
-    public class ImageEntry : Entry
-    {
-        public string ImagePath { get; set; }
-
-        public override void Display()
-        {
-            Console.WriteLine($"[Image Entry] {Date}: {Text}, Image Path: {ImagePath}");
-        }
-    }
-
-    // Journal class that contains a list of Entries
-    public class Journal
-    {
-        private List<Entry> entries = new List<Entry>();
-
-        // Method to add entries to the journal
-        public void AddEntry(Entry entry)
-        {
-            entries.Add(entry);
-        }
-
-        // Method to display all entries in the journal
-        public void DisplayAllEntries()
-        {
-            foreach (var entry in entries)
+            switch (choice)
             {
-                entry.Display();  // Abstraction in action: we don't care about the concrete type of Entry
+                case "1":
+                    WriteNewEntry();
+                    break;
+                case "2":
+                    journal.DisplayAll();
+                    break;
+                case "3":
+                    SaveJournal();
+                    break;
+                case "4":
+                    LoadJournal();
+                    break;
+                case "5":
+                    Console.WriteLine("Goodbye!");
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
             }
         }
     }
 
-    // Program entry point
-    class Program
+    public static void WriteNewEntry()
     {
-        static void Main(string[] args)
+        string prompt = promptGenerator.GetRandomPrompt();
+        Console.WriteLine(prompt);
+        Console.Write("Your response: ");
+        string response = Console.ReadLine();
+        journal.AddEntry(new Entry(prompt, response));
+    }
+
+    public static void SaveJournal()
+    {
+        Console.Write("Enter filename to save: ");
+        string filename = Console.ReadLine();
+        if (!string.IsNullOrEmpty(filename))
         {
-            // Create a new journal
-            Journal myJournal = new Journal();
+            journal.SaveToFile(filename);
+        }
+        else
+        {
+            Console.WriteLine("Invalid filename. Please try again.");
+        }
+    }
 
-            // Add a text-based entry
-            myJournal.AddEntry(new TextEntry { Date = "2024-11-15", Text = "This is my first journal entry!" });
-
-            // Add an image-based entry
-            myJournal.AddEntry(new ImageEntry { Date = "2024-11-16", Text = "A beautiful sunset!", ImagePath = "/images/sunset.jpg" });
-
-            // Display all entries
-            myJournal.DisplayAllEntries();
+    public static void LoadJournal()
+    {
+        Console.Write("Enter filename to load: ");
+        string filename = Console.ReadLine();
+        if (!string.IsNullOrEmpty(filename))
+        {
+            journal.LoadFromFile(filename);
+        }
+        else
+        {
+            Console.WriteLine("Invalid filename. Please try again.");
         }
     }
 }
