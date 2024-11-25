@@ -1,105 +1,101 @@
-using System;
+using System;  
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        Journal journal = new Journal();
-        bool running = true;
+class Program  
+{  
+    static void Main(string[] args)  
+    {  
+        Console.WriteLine("Welcome!");
+        Console.Write("What is your Name ?: ");
+        string name = Console.ReadLine();
+        Journal journal = new Journal();  
+        bool running = true;  
 
-        while (running)
-        {
-            Console.WriteLine("Welcome!");
-            Console.Write("What is your Name ?: ");
-            string name = Console.ReadLine();        
-            Console.Clear();
-            Console.WriteLine($"Dear: {name}, Once again welcome to the Journal Program!");
-            Console.WriteLine("1. Write a new entry");
-            Console.WriteLine("2. Display the journal");
-            Console.WriteLine("3. Save the journal to a file");
-            Console.WriteLine("4. Load the journal from a file");
-            Console.WriteLine("5. Exit");
-            Console.Write("Choose an option: ");
-            
-            string choice = Console.ReadLine();
-            switch (choice)
-            {
-                case "1":
-                    WriteNewEntry(journal);
-                    break;
-                case "2":
-                    journal.DisplayEntries();
-                    Console.WriteLine("Press Enter to continue...");
-                    Console.ReadLine();
-                    break;
-                case "3":
-                    SaveJournalToFile(journal);
-                    break;
-                case "4":
-                    LoadJournalFromFile(journal);
-                    break;
-                case "5":
-                    running = false;
-                    break;
-                default:
-                    Console.WriteLine("Invalid option. Please try again.");
-                    break;
-            }
-        }
-    }
+        while (running)  
+        {  
+            Console.WriteLine($"Dear {name} this is the Journal Menu");
+            Console.WriteLine("1. Write a new entry");  
+            Console.WriteLine("2. Display journal");  
+            Console.WriteLine("3. Save journal to file");  
+            Console.WriteLine("4. Load journal from file");  
+            Console.WriteLine("5. Exit");  
+            Console.Write($"Dear{name} Kindly Choose an option: ");  
+            string choice = Console.ReadLine();  
 
-    static void WriteNewEntry(Journal journal)
-    {
-        string prompt = journal.GetRandomPrompt();
-        Console.WriteLine($"Prompt: {prompt}");
-        Console.Write("Your response: ");
-        string response = Console.ReadLine();
-        journal.AddEntry(prompt, response);
-    }
-
-    static void SaveJournalToFile(Journal journal)
-    {
-        Console.Write("Enter the filename to save the journal: ");
-        string filename = Console.ReadLine();
-        journal.SaveToFile(filename);
-        Console.WriteLine("Press Enter to continue...");
-        Console.ReadLine();
-    }
-
-    static void LoadJournalFromFile(Journal journal)
-    {
-        Console.Write("Enter the filename to load the journal from: ");
-        string filename = Console.ReadLine();
-        journal.LoadFromFile(filename);
-        Console.WriteLine("Press Enter to continue...");
-        Console.ReadLine();
-    }
+            switch (choice)  
+            {  
+                case "1":  
+                    string prompt = journal.GetRandomPrompt();  
+                    Console.WriteLine($"Prompt: {prompt}");  
+                    Console.Write("Your response: ");  
+                    string response = Console.ReadLine();  
+                    journal.AddEntry(response);  
+                    break;  
+                case "2":  
+                    journal.DisplayEntries();  
+                    break;  
+                case "3":  
+                    Console.Write("Enter filename to save: ");  
+                    string saveFileName = Console.ReadLine();  
+                    journal.SaveToFile(saveFileName);  
+                    Console.WriteLine("Journal saved.");  
+                    break;  
+                case "4":  
+                    Console.Write("Enter filename to load: ");  
+                    string loadFileName = Console.ReadLine();  
+                    journal.LoadFromFile(loadFileName);  
+                    Console.WriteLine("Journal loaded.");  
+                    break;  
+                case "5":  
+                    running = false;  
+                    break;  
+                default:  
+                    Console.WriteLine("Invalid option. Please try again.");  
+                    break;  
+            }  
+        }  
+    }  
 }
 
 internal class Journal
 {
-    internal void AddEntry(string prompt, string response)
+    internal void AddEntry(string response)
     {
-        throw new NotImplementedException();
+        throw new ImplementedException();
     }
 
     internal void DisplayEntries()
     {
-        throw new NotImplementedException();
+        throw new ImplementedException();
     }
 
     internal string GetRandomPrompt()
     {
-        throw new NotImplementedException();
+        throw new ImplementedException();
     }
 
-    internal void LoadFromFile(string filename)
+    internal void LoadFromFile(string loadFileName)
     {
-        throw new NotImplementedException();
+        throw new ImplementedException();
     }
 
-    internal void SaveToFile(string filename)
+    internal void SaveToFile(string saveFileName)
     {
-        throw new NotImplementedException();
+        throw new ImplementedException();
+    }
+}
+
+[Serializable]
+internal class ImplementedException : Exception
+{
+    public ImplementedException()
+    {
+    }
+
+    public ImplementedException(string message) : base(message)
+    {
+    }
+
+    public ImplementedException(string message, Exception innerException) : base(message, innerException)
+    {
     }
 }
