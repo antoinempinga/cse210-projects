@@ -1,75 +1,105 @@
 using System;
-using System.Collections.Generic;
 
-namespace JournalApp
+class Program
 {
-    // Abstract class defining a general structure for all types of Entries
-    public abstract class Entry
+    static void Main(string[] args)
     {
-        public string Date { get; set; }
-        public string Text { get; set; }
+        Journal journal = new Journal();
+        bool running = true;
 
-        // Abstract method that will be implemented by concrete subclasses
-        public abstract void Display();
-    }
-
-    // Concrete class that represents a text-based journal entry
-    public class TextEntry : Entry
-    {
-        public override void Display()
+        while (running)
         {
-            Console.WriteLine($"[Text Entry] {Date}: {Text}");
-        }
-    }
-
-    // Concrete class for an image-based journal entry (could be expanded later)
-    public class ImageEntry : Entry
-    {
-        public string ImagePath { get; set; }
-
-        public override void Display()
-        {
-            Console.WriteLine($"[Image Entry] {Date}: {Text}, Image Path: {ImagePath}");
-        }
-    }
-
-    // Journal class that contains a list of Entries
-    public class Journal
-    {
-        private List<Entry> entries = new List<Entry>();
-
-        // Method to add entries to the journal
-        public void AddEntry(Entry entry)
-        {
-            entries.Add(entry);
-        }
-
-        // Method to display all entries in the journal
-        public void DisplayAllEntries()
-        {
-            foreach (var entry in entries)
+            Console.WriteLine("Welcome!");
+            Console.Write("What is your Name ?: ");
+            string name = Console.ReadLine();        
+            Console.Clear();
+            Console.WriteLine($"Dear: {name}, Once again welcome to the Journal Program!");
+            Console.WriteLine("1. Write a new entry");
+            Console.WriteLine("2. Display the journal");
+            Console.WriteLine("3. Save the journal to a file");
+            Console.WriteLine("4. Load the journal from a file");
+            Console.WriteLine("5. Exit");
+            Console.Write("Choose an option: ");
+            
+            string choice = Console.ReadLine();
+            switch (choice)
             {
-                entry.Display();  // Abstraction in action: we don't care about the concrete type of Entry
+                case "1":
+                    WriteNewEntry(journal);
+                    break;
+                case "2":
+                    journal.DisplayEntries();
+                    Console.WriteLine("Press Enter to continue...");
+                    Console.ReadLine();
+                    break;
+                case "3":
+                    SaveJournalToFile(journal);
+                    break;
+                case "4":
+                    LoadJournalFromFile(journal);
+                    break;
+                case "5":
+                    running = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
             }
         }
     }
 
-    // Program entry point
-    class Program
+    static void WriteNewEntry(Journal journal)
     {
-        static void Main(string[] args)
-        {
-            // Create a new journal
-            Journal myJournal = new Journal();
+        string prompt = journal.GetRandomPrompt();
+        Console.WriteLine($"Prompt: {prompt}");
+        Console.Write("Your response: ");
+        string response = Console.ReadLine();
+        journal.AddEntry(prompt, response);
+    }
 
-            // Add a text-based entry
-            myJournal.AddEntry(new TextEntry { Date = "2024-11-15", Text = "This is my first journal entry!" });
+    static void SaveJournalToFile(Journal journal)
+    {
+        Console.Write("Enter the filename to save the journal: ");
+        string filename = Console.ReadLine();
+        journal.SaveToFile(filename);
+        Console.WriteLine("Press Enter to continue...");
+        Console.ReadLine();
+    }
 
-            // Add an image-based entry
-            myJournal.AddEntry(new ImageEntry { Date = "2024-11-16", Text = "A beautiful sunset!", ImagePath = "/images/sunset.jpg" });
+    static void LoadJournalFromFile(Journal journal)
+    {
+        Console.Write("Enter the filename to load the journal from: ");
+        string filename = Console.ReadLine();
+        journal.LoadFromFile(filename);
+        Console.WriteLine("Press Enter to continue...");
+        Console.ReadLine();
+    }
+}
 
-            // Display all entries
-            myJournal.DisplayAllEntries();
-        }
+internal class Journal
+{
+    internal void AddEntry(string prompt, string response)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void DisplayEntries()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal string GetRandomPrompt()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void LoadFromFile(string filename)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void SaveToFile(string filename)
+    {
+        throw new NotImplementedException();
     }
 }
