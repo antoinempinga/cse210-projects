@@ -1,38 +1,36 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public class Program
+class Program
 {
-    
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
-        Console.WriteLine("Welcome!");
-        Console.Write("What is your Name ?: ");
-        string name = Console.ReadLine();
-        Console.WriteLine($"Dear {name} :");
-        Reference reference = new Reference("Proverbs", 3, 5, 6);
-        Scripture scripture = new Scripture(reference, "Trust in the Lord with all your heart and lean not on your own understanding");
+        // Initialize the scripture
+        Reference reference = new Reference("John", 14, 1);
+        string scriptureText =
+            "Let not your heart be troubled: ye believe in God, believe also in me.";
+        Scripture scripture = new Scripture(reference, scriptureText);
 
-        while (true)
+        // Main program loop
+        while (!scripture.AllWordsHidden())
         {
             Console.Clear();
-            Console.WriteLine($"{reference.GetDisplayText()}:");
-            Console.WriteLine(scripture.GetDisplayText());
-            
-            if (scripture.IsCompletelyHidden())
-            {
-                Console.WriteLine("All the words are hidden from view. You got this!");
-                break;
-            }
-
+            Console.WriteLine(scripture.GetRenderedText());
             Console.WriteLine("\nPress Enter to hide more words or type 'quit' to exit.");
-            string input = Console.ReadLine();
 
-            if (input.ToLower() == "quit")
+            string userInput = Console.ReadLine();
+            if (userInput.ToLower() == "quit")
             {
                 break;
             }
 
-            scripture.HideRandomWords(3); 
+            scripture.HideRandomWords();
         }
+
+        // Final display
+        Console.Clear();
+        Console.WriteLine(scripture.GetRenderedText());
+        Console.WriteLine("\nAll words have been hidden. Program ending.");
     }
 }

@@ -1,54 +1,37 @@
-using System;
-public class Scripture
+class Scripture
 {
-    private Reference _reference;
-    private List<Word> _words;
+    private Reference Reference { get; set; }
+    private List<Word> Words { get; set; }
 
     public Scripture(Reference reference, string text)
     {
-        _reference = reference;
-        _words = new List<Word>();
-        foreach (var word in text.Split(' '))
+        Reference = reference;
+        Words = text.Split(' ').Select(word => new Word(word)).ToList();
+    }
+
+    public void HideRandomWords()
+    {
+        Random random = new Random();
+        int wordsToHide = Math.Min(3, Words.Count(w => !w.IsHidden)); // Hide up to 3 words per iteration
+
+        List<Word> visibleWords = Words.Where(w => !w.IsHidden).ToList();
+
+        for (int i = 0; i < wordsToHide; i++)
         {
-            _words.Add(new Word(word));
+            int index = random.Next(visibleWords.Count);
+            visibleWords[index].Hide();
+            visibleWords.RemoveAt(index);
         }
     }
 
-    public void HideRandomWords(int numberToHide)
+    public bool AllWordsHidden()
     {
-        var random = new Random();
-        int hiddenCount = 0;
-
-        while (hiddenCount < numberToHide)
-        {
-            int index = random.Next(_words.Count);
-            if (!_words[index].IsHidden())
-            {
-                _words[index].Hide();
-                hiddenCount++;
-            }
-        }
+        return Words.All(w => w.IsHidden);
     }
 
-    public string GetDisplayText()
+    public string GetRenderedText()
     {
-        List<string> displayWords = new List<string>();
-        foreach (var word in _words)
-        {
-            displayWords.Add(word.GetDisplayText());
-        }
-        return string.Join(" ", displayWords);
-    }
-
-    public bool IsCompletelyHidden()
-    {
-        foreach (var word in _words)
-        {
-            if (!word.IsHidden())
-            {
-                return false;
-            }
-        }
-        return true;
+        string text = string.Join(" ", Words);
+        return $"{Reference}\n{text}";
     }
 }

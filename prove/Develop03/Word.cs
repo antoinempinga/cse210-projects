@@ -1,32 +1,25 @@
-using System;
-public class Word
+class Word
 {
-    private string _text;
-    private bool _isHidden;
+    public string Text { get; private set; }
+    public bool IsHidden { get; private set; }
 
     public Word(string text)
     {
-        _text = text;
-        _isHidden = false;
+        Text = text;
+        IsHidden = false;
     }
 
     public void Hide()
     {
-        _isHidden = true;
+        IsHidden = true;
     }
 
-    public void Show()
+    public override string ToString()
     {
-        _isHidden = false;
-    }
-
-    public bool IsHidden()
-    {
-        return _isHidden;
-    }
-
-    public string GetDisplayText()
-    {
-        return _isHidden ? "____" : _text;
+        if (IsHidden)
+        {
+            return new string('_', Text.Length);
+        }
+        return Text;
     }
 }
