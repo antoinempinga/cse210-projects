@@ -2,8 +2,13 @@ using System;
 
 public class Program
 {
+    
     public static void Main(string[] args)
     {
+        Console.WriteLine("Welcome!");
+        Console.Write("What is your Name ?: ");
+        string name = Console.ReadLine();
+        Console.WriteLine($"Dear {name} :");
         Reference reference = new Reference("Proverbs", 3, 5, 6);
         Scripture scripture = new Scripture(reference, "Trust in the Lord with all your heart and lean not on your own understanding");
 
