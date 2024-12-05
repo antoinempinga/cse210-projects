@@ -1,0 +1,4 @@
+1000
+Run a Marathon,Complete a marathon,True
+Read Scriptures,Read scriptures daily,False
+Attend Temple,Attend the temple,False
