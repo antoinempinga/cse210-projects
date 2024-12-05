@@ -1,37 +1,14 @@
-class Reference
+public class ScriptureReference
 {
-    public string Book { get; private set; }
-    public int Chapter { get; private set; }
-    public int StartVerse { get; private set; }
-    public int? EndVerse { get; private set; } // Nullable for single verses
+    public string Reference { get; set; }
 
-    // Constructor for a single verse
-    public Reference(string book, int chapter, int verse)
+    public ScriptureReference(string reference)
     {
-        Book = book;
-        Chapter = chapter;
-        StartVerse = verse;
-        EndVerse = null;
-    }
-
-    // Constructor for a range of verses
-    public Reference(string book, int chapter, int startVerse, int endVerse)
-    {
-        Book = book;
-        Chapter = chapter;
-        StartVerse = startVerse;
-        EndVerse = endVerse;
+        Reference = reference;
     }
 
     public override string ToString()
     {
-        if (EndVerse == null)
-        {
-            return $"{Book} {Chapter}:{StartVerse}";
-        }
-        else
-        {
-            return $"{Book} {Chapter}:{StartVerse}-{EndVerse}";
-        }
+        return Reference;
     }
 }

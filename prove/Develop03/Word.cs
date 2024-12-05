@@ -1,7 +1,7 @@
-class Word
+public class Word
 {
-    public string Text { get; private set; }
-    public bool IsHidden { get; private set; }
+    public string Text { get; set; }
+    public bool IsHidden { get; set; }
 
     public Word(string text)
     {
@@ -9,17 +9,8 @@ class Word
         IsHidden = false;
     }
 
-    public void Hide()
+    public string GetDisplayText()
     {
-        IsHidden = true;
-    }
-
-    public override string ToString()
-    {
-        if (IsHidden)
-        {
-            return new string('_', Text.Length);
-        }
-        return Text;
+        return IsHidden ? new string('_', Text.Length) : Text;
     }
 }

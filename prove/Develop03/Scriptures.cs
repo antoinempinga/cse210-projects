@@ -1,37 +1,48 @@
-class Scripture
+using System;
+using System.Collections.Generic;
+
+public class Scripture
 {
-    private Reference Reference { get; set; }
-    private List<Word> Words { get; set; }
+    public ScriptureReference Reference { get; set; }
+    public List<Word> Words { get; set; }
 
-    public Scripture(Reference reference, string text)
+    public Scripture(string reference, string text)
     {
-        Reference = reference;
-        Words = text.Split(' ').Select(word => new Word(word)).ToList();
-    }
+        Reference = new ScriptureReference(reference);
+        Words = new List<Word>();
+        var wordArray = text.Split(' ');
 
-    public void HideRandomWords()
-    {
-        Random random = new Random();
-        int wordsToHide = Math.Min(3, Words.Count(w => !w.IsHidden)); // Hide up to 3 words per iteration
-
-        List<Word> visibleWords = Words.Where(w => !w.IsHidden).ToList();
-
-        for (int i = 0; i < wordsToHide; i++)
+        foreach (var word in wordArray)
         {
-            int index = random.Next(visibleWords.Count);
-            visibleWords[index].Hide();
-            visibleWords.RemoveAt(index);
+            Words.Add(new Word(word));
         }
     }
 
-    public bool AllWordsHidden()
+    public void DisplayScripture()
     {
-        return Words.All(w => w.IsHidden);
+        Console.Clear();
+        Console.WriteLine(Reference);
+        foreach (var word in Words)
+        {
+            Console.Write(word.GetDisplayText() + " ");
+        }
+        Console.WriteLine();
     }
 
-    public string GetRenderedText()
+    public void HideRandomWord()
     {
-        string text = string.Join(" ", Words);
-        return $"{Reference}\n{text}";
+        Random rand = new Random();
+        int wordIndex = rand.Next(0, Words.Count);
+        Words[wordIndex].IsHidden = true;
+    }
+
+    public bool IsComplete()
+    {
+        foreach (var word in Words)
+        {
+            if (!word.IsHidden)
+                return false;
+        }
+        return true;
     }
 }

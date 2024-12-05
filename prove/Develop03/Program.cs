@@ -1,36 +1,38 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 class Program
 {
     static void Main(string[] args)
     {
-        // Initialize the scripture
-        Reference reference = new Reference("John", 14, 1);
-        string scriptureText =
-            "Let not your heart be troubled: ye believe in God, believe also in me.";
+        string reference = "1 Corinthians 15:33";
+        string scriptureText = "Be not deceived: evil communications corrupt good manners.";
+
         Scripture scripture = new Scripture(reference, scriptureText);
 
-        // Main program loop
-        while (!scripture.AllWordsHidden())
+        // Start the game loop
+        while (true)
         {
-            Console.Clear();
-            Console.WriteLine(scripture.GetRenderedText());
-            Console.WriteLine("\nPress Enter to hide more words or type 'quit' to exit.");
+            scripture.DisplayScripture();
 
-            string userInput = Console.ReadLine();
-            if (userInput.ToLower() == "quit")
+            Console.WriteLine("\nPress Enter to hide a word or type 'quit' to exit.");
+            string input = Console.ReadLine();
+
+            if (input.ToLower() == "quit")
             {
                 break;
             }
 
-            scripture.HideRandomWords();
+            scripture.HideRandomWord();
+
+            // Check if all words are hidden
+            if (scripture.IsComplete())
+            {
+                scripture.DisplayScripture();
+                Console.WriteLine("\nCongratulations! You've hidden all the words.");
+                break;
+            }
         }
 
-        // Final display
-        Console.Clear();
-        Console.WriteLine(scripture.GetRenderedText());
-        Console.WriteLine("\nAll words have been hidden. Program ending.");
+        Console.WriteLine("\nProgram has ended.");
     }
 }
